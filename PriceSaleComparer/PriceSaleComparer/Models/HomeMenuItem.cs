@@ -7,11 +7,12 @@ namespace PriceSaleComparer.Models
     public enum MenuItemType
     {
         Browse,
-        About
+        About,
+        BarcodeScreen
     }
     public class HomeMenuItem
     {
-        public MenuItemType Id { get; set; }
+        public int Id { get; set; }
 
         public string Title { get; set; }
     }

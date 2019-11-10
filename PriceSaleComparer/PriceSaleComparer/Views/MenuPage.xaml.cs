@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using PriceSaleComparer.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,24 +19,34 @@ namespace PriceSaleComparer.Views
         public MenuPage()
         {
             InitializeComponent();
-
-            menuItems = new List<HomeMenuItem>
+            var IPageItemResolver = typeof(IPageItem);
+            var IPageItemResolverList = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => IPageItemResolver.IsAssignableFrom(p) && !p.IsInterface && !p.IsAbstract).ToList();
+            menuItems = new List<HomeMenuItem>();
+            foreach (var IPageItemResolverItem in IPageItemResolverList)
             {
-                new HomeMenuItem {Id = MenuItemType.Browse, Title="Browse" },
-                new HomeMenuItem {Id = MenuItemType.About, Title="About" }
-            };
+                menuItems.Add(new HomeMenuItem
+                {
+                    Id = IPageItemResolverList.IndexOf(IPageItemResolverItem),
+                    Title = (string)IPageItemResolverItem.GetProperty("Title").GetValue(Activator.CreateInstance(IPageItemResolverItem), null)
+            });
 
-            ListViewMenu.ItemsSource = menuItems;
+
+
+        }
+
+        ListViewMenu.ItemsSource = menuItems;
 
             ListViewMenu.SelectedItem = menuItems[0];
-            ListViewMenu.ItemSelected += async (sender, e) =>
+            ListViewMenu.ItemSelected += async(sender, e) =>
             {
                 if (e.SelectedItem == null)
                     return;
 
                 var id = (int)((HomeMenuItem)e.SelectedItem).Id;
-                await RootPage.NavigateFromMenu(id);
-            };
-        }
+        await RootPage.NavigateFromMenu(id);
+    };
+}
     }
 }

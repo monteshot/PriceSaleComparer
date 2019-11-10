@@ -17,7 +17,7 @@ namespace PriceSaleComparer.ViewModels
 
         public ItemsViewModel()
         {
-            Title = "Browse";
+            Title = "Browse456";
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
