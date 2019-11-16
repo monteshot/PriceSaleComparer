@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="PriceSaleComparer.Views.NewItemPage"
-             Title="New Item">
+             Title="New Product">
     
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Cancel" Clicked="Cancel_Clicked" />
@@ -14,10 +14,10 @@
     
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
-            <Label Text="Text" FontSize="Medium" />
-            <Entry Text="{Binding Item.Text}" d:Text="Item name" FontSize="Small" />
-            <Label Text="Description" FontSize="Medium" />
-            <Editor Text="{Binding Item.Description}" d:Text="Item description" FontSize="Small" Margin="0" />
+            <Label Text="Code" FontSize="Medium" />
+            <Entry Text="{Binding Item.Code}" d:Text="Item name" FontSize="Small" />
+            <Label Text="Price" FontSize="Medium" />
+            <Editor Keyboard="Numeric" Text="{Binding Item.Price}" d:Text="Item description" FontSize="Small" Margin="0" />
         </StackLayout>
     </ContentPage.Content>
     

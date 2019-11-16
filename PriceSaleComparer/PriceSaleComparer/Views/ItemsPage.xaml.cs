@@ -11,6 +11,7 @@ using PriceSaleComparer.Models;
 using PriceSaleComparer.Services;
 using PriceSaleComparer.Views;
 using PriceSaleComparer.ViewModels;
+using ZXing.Net.Mobile.Forms;
 
 namespace PriceSaleComparer.Views
 {
@@ -42,9 +43,28 @@ namespace PriceSaleComparer.Views
 
         async void AddItem_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
+            await CreateScannerPage();
         }
+        public async Task CreateScannerPage()
+        {
+            var scanPage = new ZXingScannerPage();
+            scanPage.OnScanResult += (result) =>
+            {
+                // Stop scanning
+                scanPage.IsScanning = false;
 
+                // Pop the page and show the result
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await Navigation.PopModalAsync();
+                    Console.WriteLine(result.Text);
+                    // await Navigation.PopModalAsync();
+                   // MessagingCenter.Send(this, "BarcodeData", result);
+                    await Navigation.PushAsync(new NewItemPage(result));
+                });
+            };
+            await Navigation.PushModalAsync(scanPage);
+        }
         protected override void OnAppearing()
         {
             base.OnAppearing();

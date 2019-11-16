@@ -10,7 +10,7 @@ namespace PriceSaleComparer.Views
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
-    public partial class ScanBarcode : ContentPage, IPageItem
+    public partial class ScanBarcode : ContentPage//, IPageItem
     {
         ScanBarcodeViewModel vm;
         public ScanBarcode()

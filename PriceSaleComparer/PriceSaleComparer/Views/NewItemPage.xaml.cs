@@ -18,11 +18,25 @@ namespace PriceSaleComparer.Views
         public NewItemPage()
         {
             InitializeComponent();
+            //ZXing.Result itemData;
+            // object itemData=new object();
+
 
             Item = new Item
             {
-                Text = "Item name",
-                Description = "This is an item description."
+                Code = "Code",
+                Price = "Price"
+            };
+
+            BindingContext = this;
+        }
+        public NewItemPage(ZXing.Result result)
+        {
+            InitializeComponent();
+            Item = new Item
+            {
+                Code = result.Text,
+                Price = ""
             };
 
             BindingContext = this;
@@ -31,12 +45,13 @@ namespace PriceSaleComparer.Views
         async void Save_Clicked(object sender, EventArgs e)
         {
             MessagingCenter.Send(this, "AddItem", Item);
-            await Navigation.PopModalAsync();
+            // await Navigation.PushAsync(new ItemsPage());
+            await Navigation.PopAsync();
         }
 
         async void Cancel_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
     }
 }
